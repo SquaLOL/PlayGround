@@ -9,7 +9,6 @@ def load_image(path):
         raise ValueError("Изображение не загружено")
     return image
 
-
 def find_broken_pixels(image):
     broken_pixels = []
     height, width = image.shape
@@ -18,5 +17,4 @@ def find_broken_pixels(image):
             if image[y, x] > BROKEN_PIXEL_THRESHOLD:
                 broken_pixels.append((x, y))
     return broken_pixels
-
 
