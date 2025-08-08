@@ -45,5 +45,35 @@ def boolean_to_string(b):
     return "True" if b == True else "False"
 
 def _all(seq, fun):
-    # your code here
-    pass
+    for i in seq:
+        if not fun(i):
+            return False
+    return True
+
+
+print(_all([1,2,3,4,5], lambda x: x>9))
+
+
+
+def socks(colours, pairs):
+    return 2 * pairs + (colours - 1)
+
+
+def skiponacci(n):
+    if n <= 0:
+        return ""
+    result = []
+    a, b = 1, 1
+    for i in range(n):
+        if i % 2 == 0:
+            result.append(str(a))
+        else:
+            result.append("skip")
+        a, b = b, a + b
+    return ' '.join(result)
+
+    # else:
+    #     return (-1)**((n * -1) + 1) * (n * -1)
+
+
+print(skiponacci(5))

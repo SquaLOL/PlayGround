@@ -1,0 +1,20 @@
+{
+  "name": "Джон Смит",
+  "age": 30,
+  "city": "Нью-Йорк",
+  "is_student": false,
+  "courses": [
+    {
+      "title": "Математика",
+      "credits": 3
+    },
+    {
+      "title": "История",
+      "credits": 4
+    }
+  ],
+  "address": {
+    "street": "123 Main St",
+    "zip_code": "10001"
+  }
+}
