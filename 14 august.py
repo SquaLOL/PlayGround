@@ -111,3 +111,34 @@ def rotate(xs: list, n: int) -> list:
 print(rotate([1,2,3,4,5],-1))
 
 
+
+def beggars(values, n):
+    #return [sum(values[i::n]) for i in range(n)]
+    if n == 0:
+        return []
+    result = [0] * n
+    for i, values in enumerate(values):
+        result[i % n] += values
+    return result
+
+
+print(beggars([1,2,3,4,5],3))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
