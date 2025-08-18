@@ -138,6 +138,39 @@ def reverse(seq):
 print(reverse([1,2,3,4]))
 
 
+def insert_barrels(warehouse, barrels):
+    finish = len(barrels)
+    index = -1
+    best_end = float('inf')
+
+    i = 0
+    while i < len(warehouse):
+        if warehouse[i] == '':
+            start = i
+            size = 0
+            while i < len(warehouse) and warehouse[i] == '':
+                size += 1
+                i += 1
+            if size >= finish and size < best_end:
+                best_end = size
+                index = start
+        else:
+            i += 1
+    if best_end == -1:
+        return warehouse
+    for j in range(finish):
+        warehouse[best_end + j] = '0'
+
+
+    return warehouse
+
+
+
+
+
+
+
+print(insert_barrels(['0','','','0','','','','0'],['0','0']))
 
 
 
