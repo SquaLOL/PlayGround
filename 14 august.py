@@ -126,9 +126,16 @@ print(beggars([1,2,3,4,5],3))
 
 
 
+def reverse(seq):
+    up = 0
+    down = len(seq) - 1
+    while up < down:
+        seq[up], seq[down] = seq[down], seq[up]
+        up += 1
+        down -= 1
+    return seq
 
-
-
+print(reverse([1,2,3,4]))
 
 
 
