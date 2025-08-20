@@ -220,7 +220,31 @@ print(vasya)
 print(masha)
 
 
+# Задача с собеса
+# [1,2,3] -> [1,3,6]
+from typing import Iterable, Generator
 
+def g(ls: Iterable[int]):
+    amount = 0
+    for n in ls:
+        amount += n
+        yield amount
 
+print(g([1,2,3]))
+def my_gen():
+    yield 1
+    yield 2
+    yield 3
 
+g = my_gen()
+print(g)
 
+def prefix_sum(arr):
+    prefix_sums  = []
+    current_sum = 0
+    for i in arr:
+        current_sum += i
+        prefix_sums.append(current_sum)
+    return prefix_sums
+
+print(prefix_sum([1,2,3,4]))
