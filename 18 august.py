@@ -53,14 +53,14 @@ def g(ls: Iterable[int]):
         amount += n
         yield amount
 
-print(g([1,2,3]))
+# print(g([1,2,3]))
 def my_gen():
     yield 1
     yield 2
     yield 3
 
-g = my_gen()
-print(g)
+# g = my_gen()
+# print(g)
 
 def prefix_sum(arr):
     prefix_sums  = []
@@ -71,3 +71,13 @@ def prefix_sum(arr):
     return prefix_sums
 
 print(prefix_sum([1,2,3,4]))
+
+
+def get_string(string):
+    return string
+
+print(True or get_string('text'))
+
+
+
+
