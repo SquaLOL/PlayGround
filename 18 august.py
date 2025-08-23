@@ -1,3 +1,6 @@
+from fontTools.misc.cython import returns
+
+
 def binary_to_string(binary):
     binary_chunks = binary.split('0b')[1::1]
     result = ''.join(chr(int(b, 2)) for b in binary_chunks)
@@ -71,6 +74,27 @@ def prefix_sum(arr):
     return prefix_sums
 
 print(prefix_sum([1,2,3,4]))
+
+
+print(True and False)
+
+
+
+# def qaz(a):
+#     a = input()
+#     cont = ''
+#     for i in a:
+#         cont += i * int(i)
+#     print(cont)
+#
+#
+# qaz(123)
+#
+#
+# result = (2 * 7.5) + 700
+# new_result = int(result)
+# print(new_result)
+
 
 
 def get_string(string):
