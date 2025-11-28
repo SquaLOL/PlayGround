@@ -28,3 +28,8 @@ def even_odd(arr):
 
 
 print(even_odd([1, 2, 3]))
+
+
+def reverse_words(s):
+    a, b = s.split()
+    return b + ' ' + a

@@ -1,4 +1,4 @@
-from fontTools.misc.cython import returns
+ from fontTools.misc.cython import returns
 
 
 def binary_to_string(binary):
