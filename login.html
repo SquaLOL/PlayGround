@@ -1,0 +1,187 @@
+<!--
+Simple Login Form for Test Automation Practice
+Filename: simple-login-form.html
+
+How to use:
+- Open this file in a browser (double-click or serve via simple HTTP server).
+- The form performs client-side validation and a fake authentication check.
+- Test automation hooks are provided via id and data-test/data-testid attributes.
+
+Suggested automated test selectors:
+- Username input:    data-test="username" or #username
+- Password input:    data-test="password" or #password
+- Submit button:     data-test="submit" or #loginSubmit
+- Remember checkbox: data-test="remember" or #remember
+- Error message:     data-test="error" or #errorMessage
+- Success message:   data-test="success" or #successMessage
+
+Test scenarios included in comments at the bottom of this file.
+-->
+
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Login Form — Automation Practice</title>
+    <style>
+        /* Простые стили, чтобы форма выглядела аккуратно */
+        :root{--bg:#f6f8fb;--card:#fff;--accent:#2563eb;--danger:#dc2626}
+        body{font-family:Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; background:var(--bg); margin:0; padding:40px; display:flex; align-items:center; justify-content:center; min-height:100vh}
+        .card{background:var(--card); padding:28px; border-radius:12px; box-shadow:0 6px 24px rgba(16,24,40,0.08); width:360px}
+        h1{font-size:18px; margin:0 0 12px}
+        label{display:block; font-size:13px; margin-bottom:6px}
+        input[type=text], input[type=password]{width:100%; padding:10px 12px; border:1px solid #e6e9ef; border-radius:8px; font-size:14px}
+        .row{margin-bottom:12px}
+        .actions{display:flex; align-items:center; justify-content:space-between; margin-top:8px}
+        button{background:var(--accent); color:white; padding:10px 14px; border:none; border-radius:8px; cursor:pointer}
+        button[disabled]{opacity:0.6; cursor:not-allowed}
+        .muted{font-size:13px; color:#6b7280}
+        .error{color:var(--danger); font-size:13px; margin-top:8px}
+        .success{color:green; font-size:13px; margin-top:8px}
+        .hint{font-size:12px; color:#9ca3af}
+        .flex{display:flex; gap:8px; align-items:center}
+    </style>
+</head>
+<body>
+<main class="card" role="main">
+    <h1>Вход в систему — Практика автотестирования</h1>
+
+    <form id="loginForm" novalidate>
+        <div class="row">
+            <label for="username">Имя пользователя</label>
+            <input id="username" name="username" type="text" autocomplete="username"
+                   placeholder="Введите имя пользователя"
+                   data-test="username" data-testid="username" aria-describedby="usernameHelp" required>
+            <div id="usernameHelp" class="hint">Минимум 3 символа. Для теста: <kbd>testuser</kbd></div>
+        </div>
+
+        <div class="row">
+            <label for="password">Пароль</label>
+            <input id="password" name="password" type="password" autocomplete="current-password"
+                   placeholder="Введите пароль"
+                   data-test="password" data-testid="password" aria-describedby="passwordHelp" required>
+            <div id="passwordHelp" class="hint">Минимум 8 символов, с заглавной буквой и цифрой. Для теста: <kbd>Password123</kbd>
+            </div>
+        </div>
+
+        <div class="row flex">
+            <input id="remember" type="checkbox" data-test="remember" data-testid="remember">
+            <label for="remember" class="muted">Запомнить меня</label>
+        </div>
+
+        <div class="actions">
+            <a href="#" id="forgot" class="muted" data-test="forgot">Забыли пароль?</a>
+            <button id="loginSubmit" data-test="submit" data-testid="submit" type="submit">Войти</button>
+        </div>
+
+        <div id="errorMessage" role="alert" aria-live="assertive" class="error" data-test="error" hidden></div>
+        <div id="successMessage" role="status" aria-live="polite" class="success" data-test="success" hidden></div>
+    </form>
+
+    <hr style="margin:16px 0">
+    <div class="muted" style="font-size:13px">Это локальная форма для практики — данные не отправляются на сервер.</div>
+</main>
+
+<script>
+    // Простая клиентская логика для демонстрации
+    (function(){
+      const form = document.getElementById('loginForm');
+      const username = document.getElementById('username');
+      const password = document.getElementById('password');
+      const submit = document.getElementById('loginSubmit');
+      const error = document.getElementById('errorMessage');
+      const success = document.getElementById('successMessage');
+
+      // Fake credentials for testing
+      const VALID = { username: 'testuser', password: 'Password123' };
+
+      function showError(msg){
+        error.hidden = false; success.hidden = true; error.textContent = msg;
+      }
+      function showSuccess(msg){
+        success.hidden = false; error.hidden = true; success.textContent = msg;
+      }
+
+      function validate(){
+        const u = username.value.trim();
+        const p = password.value;
+        if(u.length < 3) return 'Имя пользователя должно быть минимум 3 символа';
+        if(p.length < 8) return 'Пароль должен быть минимум 8 символов';
+        if(!/[A-Z]/.test(p)) return 'Пароль должен содержать заглавную букву';
+        if(!/[0-9]/.test(p)) return 'Пароль должен содержать цифру';
+        return '';
+      }
+
+      form.addEventListener('submit', function(e){
+        e.preventDefault();
+        submit.disabled = true; // предотвращаем двойной сабмит в UI
+        const v = validate();
+        if(v){ showError(v); submit.disabled = false; return; }
+
+        // Имитация задержки сети
+        showError('');
+        success.hidden = true; error.hidden = true;
+        submit.textContent = 'Проверка...';
+
+        setTimeout(()=>{
+          if(username.value.trim() === VALID.username && password.value === VALID.password){
+            showSuccess('Успешный вход. Добро пожаловать, ' + VALID.username + '!');
+            // для практики можно сохранять remember в localStorage
+            if(document.getElementById('remember').checked){
+              localStorage.setItem('rememberedUser', VALID.username);
+            }
+          } else {
+            showError('Неверное имя пользователя или пароль');
+          }
+          submit.textContent = 'Войти';
+          submit.disabled = false;
+        }, 700);
+      });
+
+      // Автозаполнение при наличии сохранённого имени
+      window.addEventListener('DOMContentLoaded', ()=>{
+        const remembered = localStorage.getItem('rememberedUser');
+        if(remembered){
+          username.value = remembered;
+          document.getElementById('remember').checked = true;
+        }
+      });
+
+      // Полезные экспортируемые точки для автотестов (если нужно)
+      window.__automation = {
+        getUsernameInput: () => username,
+        getPasswordInput: () => password,
+        getSubmitButton: () => submit,
+        getErrorMessage: () => error,
+        getSuccessMessage: () => success,
+        resetStorage: () => localStorage.removeItem('rememberedUser')
+      };
+    })();
+</script>
+
+<!--
+Примеры тест-кейсов для автоматизации (коротко):
+
+1) Happy path
+  - Ввод: username=testuser, password=Password123
+  - Ожидание: элемент [data-test="success"] видим, текст содержит 'Успешный вход'
+
+2) Неверный пароль
+  - Ввод: username=testuser, password=wrong
+  - Ожидание: элемент [data-test="error"] видим, текст 'Неверное имя пользователя или пароль'
+
+3) Валидация краткого пароля
+  - Ввод: username=ab, password=short
+  - Ожидание: [data-test="error"] содержит 'Имя пользователя должно быть минимум 3 символа'
+
+4) Remember me
+  - Установить чек, ввести правильные данные, пройти вход
+  - Ожидание: localStorage содержит ключ 'rememberedUser'
+
+5) Accessibility
+  - Проверить, что #username и #password связаны с <label>
+  - Проверить, что сообщения об ошибке используют role="alert" и aria-live
+-->
+</body>
+</html>

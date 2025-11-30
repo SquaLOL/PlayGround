@@ -25,3 +25,10 @@ def sorter(textbooks):
 def duty_free(price, discount, holiday_cost):
     savings = price * discount / 100
     return holiday_cost // savings
+
+
+def is_palindrome(s):
+    return s.lower() == s[::-1]
+
+
+print(is_palindrome('abbbac'))
