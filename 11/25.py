@@ -74,3 +74,19 @@ def bubblesort_once(arr):
 
 
 print(bubblesort_once([9, 7, 5, 3, 1, 2, 4, 6, 8]))
+
+
+def make_upper_case(s):
+    return s.upper()
+
+
+def rps(p1, p2):
+    result = {'rock': 'scissors', 'scissors': 'paper', 'paper': 'rock'}
+    if p1 == p2:
+        return "Draw!"
+    if result[p1] == p2:
+        return "Player 1 won!"
+    return "Player 2 won!"
+
+
+print(rps('rock', 'scissors'))

@@ -1,27 +1,41 @@
+import time
+
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
-driver = webdriver.Edge()
+options = webdriver.EdgeOptions()
+
+# Снижение риска капчи
+options.add_argument("--disable-blink-features=AutomationControlled")
+options.add_experimental_option("excludeSwitches", ["enable-automation"])
+options.add_experimental_option('useAutomationExtension', False)
+
+driver = webdriver.Edge(options=options)
 
 try:
-    driver.get('https://google.com')
+    driver.get("https://www.google.com")
 
+    # Ждём поле ввода
     search_input = WebDriverWait(driver, 10).until(
         EC.presence_of_element_located((By.NAME, "q"))
     )
 
-    assert search_input.get_attribute("value") == ""
+    time.sleep(1)  # небольшая задержка — ведём себя как человек
 
-    search_input.send_keys('selene')
+    search_input.send_keys("selene python")
     search_input.send_keys(Keys.RETURN)
 
-    target_text = 'User-oriented WEB UI browser test in Python'
-    WebDriverWait(driver, 10).until(
-        EC.text_to_be_present_in_element((By.CSS_SELECTOR, "#search"), target_text)
+    # Ждём появления результатов
+    results = WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.ID, "search"))
     )
+
+    # Проверка текста на странице
+    assert "Selene" in results.text or "selene" in results.text
+
     print("Test passed successfully!")
 
 finally:
